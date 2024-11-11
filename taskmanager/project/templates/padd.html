@@ -1,0 +1,16 @@
+{% extends 'pnavheader.html' %}
+{% block header %}
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="w-75 border shadow bg-light p-3 mt-5">
+                <h3>Add Project</h3>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table class="table">
+                        {{ form.as_table }}
+                    </table>
+                    <button class="btn btn-success">Add</button>
+                </form>
+            </div>
+        </div>
+
+{% endblock header %}
