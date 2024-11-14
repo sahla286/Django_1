@@ -1,19 +1,44 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from .forms import TaskForm
+from .forms import TaskForm,LoginForm,RegistrationForm
 from django.http import HttpResponse
 from .models import task
+from django.contrib.auth import authenticate
 
 # Create your views here.
 # def landingView(request):
 #     return render(request,'landing.html')
 
+class LoginView(View):
+    def get(self,request):
+        form=LoginForm()
+        return render(request,'login.html',{'form':form})
+    def post(self,request):
+        formdata=LoginForm(data=request.POST)
+        if formdata.is_valid():
+            uname=formdata.cleaned_data.get('username')
+            pswd=formdata.cleaned_data.get('password')
+            user=authenticate(request,username=uname,password=pswd)
+            if user:
+                return redirect('landing')
+            else:
+                return redirect('login')
+        return render(request,'login.html',{'form':formdata})
+        
+class RegistrationView(View):
+    def get(self,request):
+        form=RegistrationForm()
+        return render(request,'registration.html',{'form':form})
+    def post(self,request):
+        formdata=RegistrationForm(data=request.POST)
+        if formdata.is_valid():
+            formdata.save()
+            return redirect('login')
+        return render(request,'registration.html',{'form':formdata})
+
 class LandingView(View):
     def get(self,request):
         return render(request,'landing.html')
-
-# def DashboardView(request):
-#     return render(request,'dashboard.html')
 
 class DashboardView(View):
     def get(self,request):

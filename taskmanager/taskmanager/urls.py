@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from task.views import LandingView
+from task.views import LoginView
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',LandingView.as_view()),
+    path('',LoginView.as_view(),name='login'),
     path('task/',include('task.urls')),
     path('project/',include('project.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
